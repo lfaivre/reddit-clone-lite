@@ -14,12 +14,14 @@
     "eslint:check": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "prettier:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "db:init": "bin/postgres_init.sh && npm run mikroorm:clean && npm run mikroorm:migration-create-init",
-    "db:clean": "bin/postgres_clean.sh && npm run mikroorm:clean && touch src/migrations/.gitkeep",
+    "postgres:init": "bin/postgres_init.sh && npm run mikroorm:clean && npm run mikroorm:migration-create-init",
+    "postgres:clean": "bin/postgres_clean.sh && npm run mikroorm:clean && touch src/migrations/.gitkeep",
     "mikroorm:migration-create-init": "NODE_ENV=development npx mikro-orm migration:create -i",
     "mikroorm:migration-create": "NODE_ENV=development npx mikro-orm migration:create",
     "mikroorm:migration-list": "NODE_ENV=development npx mikro-orm migration:list",
-    "mikroorm:clean": "rimraf dist/ src/migrations/ && mkdir -p src/migrations"
+    "mikroorm:clean": "rimraf dist/ src/migrations/ && mkdir -p src/migrations",
+    "redis:init": "bin/redis_init.sh",
+    "redis:clean": "bin/redis_clean.sh"
   },
   "husky": {
     "hooks": {
@@ -46,8 +48,11 @@
   "homepage": "https://github.com/lfaivre/reddit-clone-lite#readme",
   "devDependencies": {
     "@mikro-orm/cli": "^4.0.4",
+    "@types/connect-redis": "0.0.14",
     "@types/express": "^4.17.8",
+    "@types/express-session": "^1.17.0",
     "@types/node": "^14.11.1",
+    "@types/redis": "^2.8.27",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
     "eslint": "^7.9.0",
@@ -77,10 +82,13 @@
     "argon2": "^0.27.0",
     "chalk": "^4.1.0",
     "class-validator": "^0.12.2",
+    "connect-redis": "^5.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "graphql": "^15.3.0",
     "lodash": "^4.17.20",
+    "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "terminal-link": "^2.1.1",
     "type-graphql": "^1.0.0"

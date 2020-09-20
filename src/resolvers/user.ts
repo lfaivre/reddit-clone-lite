@@ -1,4 +1,4 @@
-import { Resolver, Ctx, Arg, Mutation } from 'type-graphql';
+import { Resolver, Ctx, Arg, Mutation, Query } from 'type-graphql';
 import argon2 from 'argon2';
 import isEmpty from 'lodash/isEmpty';
 import trim from 'lodash/trim';
@@ -14,7 +14,7 @@ export class UserResolver {
   async register(
     @Arg('username', () => String) username: string,
     @Arg('password', () => String) password: string,
-    @Ctx() { em }: Context
+    @Ctx() { em, req }: Context
   ): Promise<UserResponse> {
     const cleanedUsername = toLower(trim(username));
     if (isEmpty(cleanedUsername)) {
@@ -54,6 +54,20 @@ export class UserResolver {
     const hashedPassword = await argon2.hash(password);
     const newUser = em.create(User, { username: cleanedUsername, password: hashedPassword });
     await em.persistAndFlush(newUser);
+
+    if (!req.session) {
+      return {
+        errors: [
+          {
+            field: `session`,
+            message: `Failed to log in newly created user`,
+          },
+        ],
+      };
+    }
+
+    req.session.userID = newUser.id;
+
     return { user: newUser };
   }
 
@@ -61,7 +75,7 @@ export class UserResolver {
   async login(
     @Arg('username', () => String) username: string,
     @Arg('password', () => String) password: string,
-    @Ctx() { em }: Context
+    @Ctx() { em, req }: Context
   ): Promise<UserResponse> {
     const cleanedUsername = toLower(trim(username));
     if (isEmpty(cleanedUsername)) {
@@ -110,6 +124,30 @@ export class UserResolver {
       };
     }
 
+    if (!req.session) {
+      return {
+        errors: [
+          {
+            field: `session`,
+            message: `Failed to access request session information`,
+          },
+        ],
+      };
+    }
+
+    req.session.userID = user.id;
+
     return { user };
+  }
+
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { em, req }: Context): Promise<User | null> {
+    if (!req.session || !req.session.userID) {
+      return null;
+    }
+
+    const id = req.session.userID as number;
+    const user = await em.findOne(User, { id });
+    return user;
   }
 }

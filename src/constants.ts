@@ -23,6 +23,10 @@ dotenv.config({ path: `.env.${NODE_ENV}` });
 export const SERVER_DB_TYPE = process.env.SERVER_DB_TYPE || `postgres`;
 export const { SERVER_POSTGRES_NAME, SERVER_POSTGRES_USER, SERVER_POSTGRES_PASSWORD } = process.env;
 
+// @note Set Redis Environment Variables
+
+export const { SERVER_REDIS_HOSTNAME, SERVER_REDIS_PORT, SERVER_REDIS_SECRET } = process.env;
+
 // @note Set Express Environment Variables
 
 export const {
