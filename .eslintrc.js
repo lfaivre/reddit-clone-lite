@@ -10,14 +10,6 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: { jsx: true },
     project: './tsconfig.json',
-    projectFolderIgnoreList: [
-      '__snapshots__/',
-      '.github/',
-      '.vscode/',
-      'dist/',
-      'node_modules/',
-      'public/',
-    ],
     tsconfigRootDir: '.',
   },
   env: {
@@ -60,6 +52,8 @@ module.exports = {
       'error',
       { functions: false, classes: true, variables: true, typedefs: true },
     ],
+    'unicorn/filename-case': 'off',
+    'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
 };

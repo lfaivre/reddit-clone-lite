@@ -5,17 +5,30 @@
   "main": "index.js",
   "scripts": {
     "start": "",
-    "start:dev": "npm run clean:dev && npm run tsc:watch && nodemon dist/index.ts",
+    "pre-start:dev": "npm run clean:dev && npm run tsc:watch",
+    "start:dev": "NODE_ENV=development nodemon dist/index.js",
+    "test": "echo \"No tests available at this time.\" && exit 0",
     "clean:dev": "rimraf dist/",
     "tsc:watch": "tsc -w",
     "eslint:check": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "prettier:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
+    "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "mikroorm:migration-create-init": "npm run mikroorm:clean && mkdir -p src/migrations && NODE_ENV=development npx mikro-orm migration:create -i",
+    "mikroorm:migration-create": "mkdir -p src/migrations && NODE_ENV=development npx mikro-orm migration:create",
+    "mikroorm:migration-list": "NODE_ENV=development npx mikro-orm migration:list",
+    "mikroorm:clean": "rimraf dist/ src/migrations/"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run prettier:write"
     }
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -29,6 +42,7 @@
   },
   "homepage": "https://github.com/lfaivre/reddit-clone-lite#readme",
   "devDependencies": {
+    "@mikro-orm/cli": "^4.0.4",
     "@types/node": "^14.11.1",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
@@ -48,10 +62,14 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   },
   "dependencies": {
     "@mikro-orm/core": "^4.0.4",
-    "@mikro-orm/postgresql": "^4.0.4"
+    "@mikro-orm/migrations": "^4.0.4",
+    "@mikro-orm/postgresql": "^4.0.4",
+    "chalk": "^4.1.0",
+    "dotenv": "^8.2.0"
   }
 }
