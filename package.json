@@ -14,10 +14,12 @@
     "eslint:check": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "prettier:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "mikroorm:migration-create-init": "npm run mikroorm:clean && mkdir -p src/migrations && NODE_ENV=development npx mikro-orm migration:create -i",
-    "mikroorm:migration-create": "mkdir -p src/migrations && NODE_ENV=development npx mikro-orm migration:create",
+    "db:init": "bin/postgres_init.sh && npm run mikroorm:clean && npm run mikroorm:migration-create-init",
+    "db:clean": "bin/postgres_clean.sh && npm run mikroorm:clean && touch src/migrations/.gitkeep",
+    "mikroorm:migration-create-init": "NODE_ENV=development npx mikro-orm migration:create -i",
+    "mikroorm:migration-create": "NODE_ENV=development npx mikro-orm migration:create",
     "mikroorm:migration-list": "NODE_ENV=development npx mikro-orm migration:list",
-    "mikroorm:clean": "rimraf dist/ src/migrations/"
+    "mikroorm:clean": "rimraf dist/ src/migrations/ && mkdir -p src/migrations"
   },
   "husky": {
     "hooks": {
@@ -72,11 +74,13 @@
     "@mikro-orm/migrations": "^4.0.4",
     "@mikro-orm/postgresql": "^4.0.4",
     "apollo-server-express": "^2.17.0",
+    "argon2": "^0.27.0",
     "chalk": "^4.1.0",
     "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
+    "lodash": "^4.17.20",
     "reflect-metadata": "^0.1.13",
     "terminal-link": "^2.1.1",
     "type-graphql": "^1.0.0"

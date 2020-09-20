@@ -15,6 +15,8 @@ import {
   SERVER_GRAPHQL_ENDPOINT,
 } from './constants';
 import microORMConfig from './mikro-orm.config';
+
+import { UserResolver } from './resolvers/user';
 import { PostResolver } from './resolvers/post';
 
 const { log } = console;
@@ -40,7 +42,7 @@ const main = async (): Promise<void> => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PostResolver],
+      resolvers: [UserResolver, PostResolver],
       validate: false,
     }),
     context: () => ({ em: orm.em }),

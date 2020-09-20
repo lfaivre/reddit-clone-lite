@@ -12,6 +12,7 @@ import {
   __dev__,
 } from './constants';
 import { Post } from './entities/Post';
+import { User } from './entities/User';
 
 const { log, error } = console;
 
@@ -31,7 +32,7 @@ const MikroORMConfig = {
     path: path.join(__dirname, `./migrations`),
     pattern: /^[\w-]+\d+\.[jt]s$/,
   },
-  entities: [Post],
+  entities: [Post, User],
   type: SERVER_DB_TYPE,
   dbName: SERVER_POSTGRES_NAME,
   user: SERVER_POSTGRES_USER,
