@@ -1,13 +1,11 @@
 {
   // @note ESLint
   "editor.codeActionsOnSave": { "source.fixAll.eslint": false },
+  "eslint.workingDirectories": ["./client", "./server"],
   "eslint.format.enable": false,
-  "eslint.packageManager": "npm",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
   // @note Prettier
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.packageManager": "npm",
-  "prettier.prettierPath": "./node_modules/prettier",
   "prettier.useEditorConfig": false
 }

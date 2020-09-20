@@ -3,7 +3,14 @@ branches:
     - master
     - dev
 
+matrix:
+  include:
+    - name: 'Server'
+      env: PACKAGE_LOCATION=server
+
 language: node_js
+before_install:
+  - cd $TRAVIS_BUILD_DIR/$PACKAGE_LOCATION
 install:
   - npm ci
 before_script:
