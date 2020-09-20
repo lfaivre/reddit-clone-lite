@@ -10,6 +10,7 @@
     "test": "echo \"No tests available at this time.\" && exit 0",
     "clean:dev": "rimraf dist/",
     "tsc:watch": "tsc -w",
+    "tsc:check": "tsc --noEmit",
     "eslint:check": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "prettier:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",

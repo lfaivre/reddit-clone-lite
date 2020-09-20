@@ -1,0 +1,14 @@
+branches:
+  only:
+    - master
+    - dev
+
+language: node_js
+install:
+  - npm ci
+before_script:
+  - npm run prettier:check
+  - npm run eslint:check
+  - npm run tsc:check
+script:
+  - npm test
