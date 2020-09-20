@@ -5,7 +5,15 @@
 </p>
 <h1 align="center">Reddit Clone (Lite)</h1>
 
-## Description
+## Information
+
+**Status**
+
+###### Travis CI
+
+[![Build Status](https://travis-ci.com/lfaivre/reddit-clone-lite.svg?branch=master)](https://travis-ci.com/lfaivre/reddit-clone-lite)
+
+**Description**
 
 A small-scale ("lite") Reddit clone to learn new technologies.
 
