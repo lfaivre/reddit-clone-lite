@@ -45,6 +45,7 @@ module.exports = {
       'error',
       { functions: false, classes: true, variables: true, typedefs: true },
     ],
+    'class-methods-use-this': 'off',
     'eslint-comments/no-unused-disable': 'error',
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',
