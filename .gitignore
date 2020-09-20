@@ -6,4 +6,5 @@
 
 # Directories
 
+**/dist
 **/node_modules

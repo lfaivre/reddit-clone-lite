@@ -1,0 +1,53 @@
+{
+  "name": "reddit-clone-lite",
+  "version": "1.0.0",
+  "description": "A small-scale Reddit clone.",
+  "main": "index.js",
+  "scripts": {
+    "start": "",
+    "start:dev": "npm run clean:dev && npm run tsc:watch && nodemon dist/index.ts",
+    "clean:dev": "rimraf dist/",
+    "tsc:watch": "tsc -w",
+    "eslint:check": "npx eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettier:check": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier:write"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lfaivre/reddit-clone-lite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lfaivre/reddit-clone-lite/issues"
+  },
+  "homepage": "https://github.com/lfaivre/reddit-clone-lite#readme",
+  "devDependencies": {
+    "@types/node": "^14.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-typescript": "^10.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.0.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-unicorn": "^22.0.0",
+    "husky": "^4.3.0",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.3"
+  }
+}
