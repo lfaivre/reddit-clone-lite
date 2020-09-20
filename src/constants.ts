@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions, @typescript-eslint/naming-convention, no-underscore-dangle */
+
 import dotenv from 'dotenv';
 import chalk from 'chalk';
 
@@ -7,8 +9,10 @@ log(`${chalk.bgWhite.black.bold(`Initializing Project Constants`)}`);
 
 // @note Set Node Environment Variable
 
-const NODE_ENV = process.env.NODE_ENV || 'production';
-log(`${chalk.bgBlue.black.bold(`Environment`)} ${chalk.white(`${NODE_ENV.toUpperCase()}`)}`);
+export const NODE_ENV = process.env.NODE_ENV || 'production';
+log(`${chalk.bgCyan.black.bold(`Environment`)} ${chalk.white(`${NODE_ENV.toUpperCase()}`)}`);
+export const __dev__ = NODE_ENV === 'development';
+export const __prod__ = NODE_ENV === 'production';
 
 // @note Initialize Additional Environment Variables
 
@@ -16,22 +20,23 @@ dotenv.config({ path: `.env.${NODE_ENV}` });
 
 // @note Set PostgreSQL Environment Variables
 
-const SERVER_DB_TYPE = process.env.SERVER_DB_TYPE || `postgres`;
-const { SERVER_POSTGRES_NAME, SERVER_POSTGRES_USER, SERVER_POSTGRES_PASSWORD } = process.env;
+export const SERVER_DB_TYPE = process.env.SERVER_DB_TYPE || `postgres`;
+export const { SERVER_POSTGRES_NAME, SERVER_POSTGRES_USER, SERVER_POSTGRES_PASSWORD } = process.env;
+
+// @note Set Express Environment Variables
+
+export const {
+  SERVER_EXPRESS_PORT,
+  SERVER_EXPRESS_DOMAIN_DEV,
+  SERVER_EXPRESS_DOMAIN_PROD,
+} = process.env;
 
 // @note Define Additional Constants
 
-/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle */
-const __dev__ = NODE_ENV === 'development';
-const __prod__ = NODE_ENV === 'production';
-/* eslint-enable @typescript-eslint/naming-convention, no-underscore-dangle */
+export const SERVER_GRAPHQL_ENDPOINT = __dev__
+  ? `http://${SERVER_EXPRESS_DOMAIN_DEV}:${SERVER_EXPRESS_PORT}/graphql`
+  : __prod__
+  ? `http://${SERVER_EXPRESS_DOMAIN_PROD}:${SERVER_EXPRESS_PORT}/graphql`
+  : `localhost`;
 
-export {
-  NODE_ENV,
-  SERVER_DB_TYPE,
-  SERVER_POSTGRES_NAME,
-  SERVER_POSTGRES_USER,
-  SERVER_POSTGRES_PASSWORD,
-  __dev__,
-  __prod__,
-};
+/* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/naming-convention, no-underscore-dangle */

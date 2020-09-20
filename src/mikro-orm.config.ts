@@ -22,9 +22,7 @@ if (
   !SERVER_POSTGRES_PASSWORD
 ) {
   const errorMessage = `Missing PostgreSQL environment variables`;
-  error(`
-  \n${chalk.bgRed.white.bold(`Error`)} ${chalk.white(errorMessage)}\n
-  `);
+  error(`\n${chalk.bgRed.white.bold(`Error`)} ${chalk.white(errorMessage)}\n`);
   throw new Error(errorMessage);
 }
 
