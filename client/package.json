@@ -11,9 +11,11 @@
     "@chakra-ui/core": "^1.0.0-rc.8",
     "formik": "^2.2.5",
     "framer-motion": "^2.9.4",
+    "graphql": "^15.4.0",
     "next": "^9.1.7",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "urql": "^1.11.2"
   },
   "license": "MIT",
   "devDependencies": {

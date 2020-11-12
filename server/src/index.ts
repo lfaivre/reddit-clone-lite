@@ -1,28 +1,26 @@
-import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
-import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import redis from 'redis';
-import session from 'express-session';
-import connectRedis from 'connect-redis';
 import chalk from 'chalk';
+import connectRedis from 'connect-redis';
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
+import redis from 'redis';
+import 'reflect-metadata';
 import terminalLink from 'terminal-link';
-
+import { buildSchema } from 'type-graphql';
 import {
-  __dev__,
-  __prod__,
-  SERVER_REDIS_SECRET,
-  SERVER_EXPRESS_PORT,
   SERVER_EXPRESS_DOMAIN_DEV,
   SERVER_EXPRESS_DOMAIN_PROD,
+  SERVER_EXPRESS_PORT,
   SERVER_GRAPHQL_ENDPOINT,
+  SERVER_REDIS_SECRET,
+  __dev__,
+  __prod__,
 } from './constants';
 import microORMConfig from './mikro-orm.config';
-
-import { Context } from './types';
-import { UserResolver } from './resolvers/user';
 import { PostResolver } from './resolvers/post';
+import { UserResolver } from './resolvers/user';
 
 const { log } = console;
 
@@ -53,6 +51,14 @@ const main = async (): Promise<void> => {
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
+
+  app.use(
+    cors({
+      origin: `http://localhost:3000`,
+      credentials: true,
+    })
+  );
+
   app.use(
     session({
       name: `qid`,
@@ -77,10 +83,10 @@ const main = async (): Promise<void> => {
       resolvers: [UserResolver, PostResolver],
       validate: false,
     }),
-    context: ({ req, res }): Context => ({ em: orm.em, req, res }),
+    context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(SERVER_EXPRESS_PORT, () => {
     log(`
