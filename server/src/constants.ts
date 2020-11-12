@@ -29,11 +29,7 @@ export const { SERVER_REDIS_HOSTNAME, SERVER_REDIS_PORT, SERVER_REDIS_SECRET } =
 
 // @note Set Express Environment Variables
 
-export const {
-  SERVER_EXPRESS_PORT,
-  SERVER_EXPRESS_DOMAIN_DEV,
-  SERVER_EXPRESS_DOMAIN_PROD,
-} = process.env;
+export const { SERVER_EXPRESS_PORT, SERVER_EXPRESS_DOMAIN_DEV, SERVER_EXPRESS_DOMAIN_PROD } = process.env;
 
 // @note Define Additional Constants
 

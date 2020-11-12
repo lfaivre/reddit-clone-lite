@@ -5,8 +5,6 @@
 # Directories
 
 **/__snapshots__
-**/.github
-**/.vscode
 **/dist
 **/node_modules
 **/public

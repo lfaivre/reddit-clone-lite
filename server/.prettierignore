@@ -5,7 +5,6 @@ package-lock.json
 # Directories
 
 **/__snapshots__
-**/.github
 **/dist
 **/node_modules
 **/public

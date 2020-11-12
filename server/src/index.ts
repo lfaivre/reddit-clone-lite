@@ -86,9 +86,7 @@ const main = async (): Promise<void> => {
     log(`
 ${chalk.bgGreen.black.bold(`Express Server: Running`)}
 ${chalk.bgCyan.black.bold(`Port`)} ${chalk.white(`${SERVER_EXPRESS_PORT || `ERROR`}`)}
-${chalk.bgMagenta.black.bold(`GraphQL`)} ${chalk.white(
-      terminalLink(SERVER_GRAPHQL_ENDPOINT, SERVER_GRAPHQL_ENDPOINT)
-    )}
+${chalk.bgMagenta.black.bold(`GraphQL`)} ${chalk.white(terminalLink(SERVER_GRAPHQL_ENDPOINT, SERVER_GRAPHQL_ENDPOINT))}
 `);
   });
 };

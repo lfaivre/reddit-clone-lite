@@ -1,11 +1,29 @@
 {
   // @note ESLint
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": false },
-  "eslint.workingDirectories": ["./client", "./server"],
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false
+  },
   "eslint.format.enable": false,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.workingDirectories": ["./client", "./server"],
 
   // @note Prettier
+
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.useEditorConfig": false
+  "prettier.prettierPath": "node_modules/prettier",
+  "prettier.useEditorConfig": false,
+
+  // @note TypeScript Code Actions
+
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  }
 }

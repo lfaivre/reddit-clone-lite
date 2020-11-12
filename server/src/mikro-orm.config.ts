@@ -16,12 +16,7 @@ import { User } from './entities/User';
 
 const { log, error } = console;
 
-if (
-  !SERVER_DB_TYPE ||
-  !SERVER_POSTGRES_NAME ||
-  !SERVER_POSTGRES_USER ||
-  !SERVER_POSTGRES_PASSWORD
-) {
+if (!SERVER_DB_TYPE || !SERVER_POSTGRES_NAME || !SERVER_POSTGRES_USER || !SERVER_POSTGRES_PASSWORD) {
   const errorMessage = `Missing PostgreSQL environment variables`;
   error(`\n${chalk.bgRed.white.bold(`Error`)} ${chalk.white(errorMessage)}\n`);
   throw new Error(errorMessage);
