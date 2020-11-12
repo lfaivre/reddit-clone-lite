@@ -1,12 +1,11 @@
-import { Resolver, Ctx, Arg, Mutation, Query } from 'type-graphql';
 import argon2 from 'argon2';
 import isEmpty from 'lodash/isEmpty';
-import trim from 'lodash/trim';
 import toLower from 'lodash/toLower';
-
+import trim from 'lodash/trim';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { User } from '../entities/User';
-import { Context } from '../types';
 import { UserResponse } from '../graphql-types/UserResponse';
+import { Context } from '../types';
 
 @Resolver()
 export class UserResolver {
@@ -66,6 +65,10 @@ export class UserResolver {
       };
     }
 
+    /** @todo Fix TS Error */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line no-param-reassign
     req.session.userID = newUser.id;
 
     return { user: newUser };
@@ -135,6 +138,10 @@ export class UserResolver {
       };
     }
 
+    /** @todo Fix TS Error */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line no-param-reassign
     req.session.userID = user.id;
 
     return { user };
@@ -142,10 +149,16 @@ export class UserResolver {
 
   @Query(() => User, { nullable: true })
   async me(@Ctx() { em, req }: Context): Promise<User | null> {
+    /** @todo Fix TS Error */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (!req.session || !req.session.userID) {
       return null;
     }
 
+    /** @todo Fix TS Error */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const id = req.session.userID as number;
     const user = await em.findOne(User, { id });
     return user;

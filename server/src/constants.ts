@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions, @typescript-eslint/naming-convention, no-underscore-dangle */
+/* eslint-disable @typescript-eslint/restrict-template-expressions, no-underscore-dangle */
 
-import dotenv from 'dotenv';
 import chalk from 'chalk';
+import dotenv from 'dotenv';
 
 const { log } = console;
 
@@ -39,4 +39,4 @@ export const SERVER_GRAPHQL_ENDPOINT = __dev__
   ? `http://${SERVER_EXPRESS_DOMAIN_PROD}:${SERVER_EXPRESS_PORT}/graphql`
   : `localhost`;
 
-/* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/naming-convention, no-underscore-dangle */
+/* eslint-enable @typescript-eslint/restrict-template-expressions, no-underscore-dangle */
