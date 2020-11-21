@@ -129,7 +129,7 @@ export class UserResolver {
       return {
         errors: [
           {
-            field: `login`,
+            field: `password`,
             message: `Invalid login credentials provided`,
           },
         ],
@@ -141,7 +141,7 @@ export class UserResolver {
       return {
         errors: [
           {
-            field: `login`,
+            field: `password`,
             message: `Invalid login credentials provided`,
           },
         ],
