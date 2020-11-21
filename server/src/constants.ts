@@ -39,4 +39,6 @@ export const SERVER_GRAPHQL_ENDPOINT = __dev__
   ? `http://${SERVER_EXPRESS_DOMAIN_PROD}:${SERVER_EXPRESS_PORT}/graphql`
   : `localhost`;
 
+export const COOKIE_NAME = `qid`;
+
 /* eslint-enable @typescript-eslint/restrict-template-expressions, no-underscore-dangle */

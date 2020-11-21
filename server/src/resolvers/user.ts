@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import toLower from 'lodash/toLower';
 import trim from 'lodash/trim';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { COOKIE_NAME } from '../constants';
 import { User } from '../entities/User';
 import { UserResponse } from '../graphql-types/UserResponse';
 import { Context } from '../types';
@@ -183,5 +184,21 @@ export class UserResolver {
     const id = req.session.userID as number;
     const user = await em.findOne(User, { id });
     return user;
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: Context): Promise<boolean> {
+    return new Promise((resolve) =>
+      req.session.destroy((error) => {
+        res.clearCookie(COOKIE_NAME);
+
+        if (error) {
+          console.error(error);
+          resolve(false);
+          return;
+        }
+        resolve(true);
+      })
+    );
   }
 }

@@ -10,6 +10,7 @@ import 'reflect-metadata';
 import terminalLink from 'terminal-link';
 import { buildSchema } from 'type-graphql';
 import {
+  COOKIE_NAME,
   SERVER_EXPRESS_DOMAIN_DEV,
   SERVER_EXPRESS_DOMAIN_PROD,
   SERVER_EXPRESS_PORT,
@@ -61,7 +62,7 @@ const main = async (): Promise<void> => {
 
   app.use(
     session({
-      name: `qid`,
+      name: COOKIE_NAME,
       store: new RedisStore({
         client: redisClient,
         disableTouch: true,
