@@ -8,7 +8,8 @@ const client = createClient({
   },
 });
 
-function MyApp({ Component, pageProps }) {
+// @todo Fix Prop Types
+function MyApp({ Component, pageProps }: any) {
   return (
     <Provider value={client}>
       <ChakraProvider>
