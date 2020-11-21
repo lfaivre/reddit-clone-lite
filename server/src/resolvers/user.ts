@@ -1,3 +1,4 @@
+import { EntityManager } from '@mikro-orm/postgresql';
 import argon2 from 'argon2';
 import isEmpty from 'lodash/isEmpty';
 import toLower from 'lodash/toLower';
@@ -51,8 +52,27 @@ export class UserResolver {
     }
 
     const hashedPassword = await argon2.hash(password);
-    const newUser = em.create(User, { username: cleanedUsername, password: hashedPassword });
-    await em.persistAndFlush(newUser);
+    let newUser;
+
+    try {
+      const result = await (em as EntityManager)
+        .createQueryBuilder(User)
+        .getKnexQuery()
+        .insert({
+          username: cleanedUsername,
+          password: hashedPassword,
+          created_at: new Date(),
+          updated_at: new Date(),
+        })
+        .returning(`*`);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, prefer-destructuring
+      newUser = result[0];
+    } catch (error) {
+      console.error(error);
+    }
+
+    // await em.persistAndFlush(newUser);
 
     if (!req.session) {
       return {
@@ -65,12 +85,13 @@ export class UserResolver {
       };
     }
 
-    /** @todo Fix TS Error */
+    /** @todo Fix TS Errors */
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-param-reassign
     req.session.userID = newUser.id;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return { user: newUser };
   }
 
