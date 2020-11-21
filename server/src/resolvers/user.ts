@@ -13,8 +13,9 @@ import { Context } from '../types';
 export class UserResolver {
   @Mutation(() => UserResponse)
   async register(
-    @Arg('username', () => String) username: string,
-    @Arg('password', () => String) password: string,
+    @Arg(`username`, () => String) username: string,
+    @Arg(`password`, () => String) password: string,
+    @Arg(`email`, () => String) email: string,
     @Ctx() { em, req }: Context
   ): Promise<UserResponse> {
     const cleanedUsername = toLower(trim(username));
@@ -24,6 +25,29 @@ export class UserResolver {
           {
             field: `username`,
             message: `Invalid username provided`,
+          },
+        ],
+      };
+    }
+
+    if (cleanedUsername.includes(`@`)) {
+      return {
+        errors: [
+          {
+            field: `username`,
+            message: `Email cannot be used as a username`,
+          },
+        ],
+      };
+    }
+
+    const cleanedEmail = toLower(trim(email));
+    if (isEmpty(cleanedEmail) || !email.includes(`@`)) {
+      return {
+        errors: [
+          {
+            field: `email`,
+            message: `Invalid email provided`,
           },
         ],
       };
@@ -62,6 +86,7 @@ export class UserResolver {
         .insert({
           username: cleanedUsername,
           password: hashedPassword,
+          email: cleanedEmail,
           created_at: new Date(),
           updated_at: new Date(),
         })
@@ -98,29 +123,34 @@ export class UserResolver {
 
   @Mutation(() => UserResponse)
   async login(
-    @Arg('username', () => String) username: string,
-    @Arg('password', () => String) password: string,
+    @Arg(`usernameOrEmail`, () => String) usernameOrEmail: string,
+    @Arg(`password`, () => String) password: string,
     @Ctx() { em, req }: Context
   ): Promise<UserResponse> {
-    const cleanedUsername = toLower(trim(username));
-    if (isEmpty(cleanedUsername)) {
+    const cleanedUsernameOrEmail = toLower(trim(usernameOrEmail));
+    if (isEmpty(cleanedUsernameOrEmail)) {
       return {
         errors: [
           {
-            field: `username`,
-            message: `Invalid username provided`,
+            field: `usernameOrEmail`,
+            message: `Invalid username or email provided`,
           },
         ],
       };
     }
 
-    const user = await em.findOne(User, { username: cleanedUsername });
+    const userUsedEmail = cleanedUsernameOrEmail.includes(`@`);
+
+    const user = await em.findOne(
+      User,
+      userUsedEmail ? { email: cleanedUsernameOrEmail } : { username: cleanedUsernameOrEmail }
+    );
     if (!user) {
       return {
         errors: [
           {
-            field: `username`,
-            message: `A user with username "${cleanedUsername}" does not exist`,
+            field: `usernameOrEmail`,
+            message: `A user with username or email "${cleanedUsernameOrEmail}" does not exist`,
           },
         ],
       };
@@ -200,5 +230,11 @@ export class UserResolver {
         resolve(true);
       })
     );
+  }
+
+  @Mutation(() => Boolean)
+  async forgotPassword(@Arg(`email`) email: string, @Ctx() { em }: Context): Promise<boolean> {
+    const user = await em.findOne(User, { email });
+    return true;
   }
 }
