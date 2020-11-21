@@ -40,5 +40,6 @@ export const SERVER_GRAPHQL_ENDPOINT = __dev__
   : `localhost`;
 
 export const COOKIE_NAME = `qid`;
+export const FORGET_PASSWORD_PREFIX = `forget-password:`;
 
 /* eslint-enable @typescript-eslint/restrict-template-expressions, no-underscore-dangle */

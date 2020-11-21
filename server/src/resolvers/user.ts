@@ -4,10 +4,12 @@ import isEmpty from 'lodash/isEmpty';
 import toLower from 'lodash/toLower';
 import trim from 'lodash/trim';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { COOKIE_NAME } from '../constants';
+import { v4 } from 'uuid';
+import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from '../constants';
 import { User } from '../entities/User';
 import { UserResponse } from '../graphql-types/UserResponse';
 import { Context } from '../types';
+import { sendEmail } from '../utils/sendEmail';
 
 @Resolver()
 export class UserResolver {
@@ -233,8 +235,18 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async forgotPassword(@Arg(`email`) email: string, @Ctx() { em }: Context): Promise<boolean> {
+  async forgotPassword(@Arg(`email`) email: string, @Ctx() { em, redis }: Context): Promise<boolean> {
     const user = await em.findOne(User, { email });
+    if (!user) {
+      return true;
+    }
+
+    const token = v4();
+    await redis.set(FORGET_PASSWORD_PREFIX + token, user.id, `ex`, 1000 * 60 * 60 * 24 * 3); // @note 3 Days
+
+    const htmlBody = `<a href="http://localhost:3000/change-password/${token}">Reset Password</a>`;
+    await sendEmail(email, htmlBody);
+
     return true;
   }
 }
