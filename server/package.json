@@ -86,7 +86,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "graphql": "^15.4.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "terminal-link": "^2.1.1",
